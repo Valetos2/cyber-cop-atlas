@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Build GitHub Pages from the owner's standalone Atlas 40 ZIP (no game ROMs needed)."""
+"""Build GitHub Pages from the owner's standalone Atlas 41 ZIP (no game ROMs needed)."""
 from __future__ import annotations
 
 import hashlib
@@ -10,7 +10,7 @@ import zipfile
 from pathlib import Path, PurePosixPath
 
 ROOT = Path(__file__).resolve().parent.parent
-ARCHIVE = ROOT / "Cyber-Cop_Atlas40_full.zip"
+ARCHIVE = ROOT / "Cyber-Cop_Atlas41_full.zip"
 DEST = ROOT / "_site"
 MAX_TOTAL = 120 * 1024 * 1024
 ALLOWED_SUFFIXES = {".html", ".png", ".json", ".csv", ".md", ".txt"}
@@ -18,7 +18,7 @@ ALLOWED_SUFFIXES = {".html", ".png", ".json", ".csv", ".md", ".txt"}
 
 def build() -> None:
     if not ARCHIVE.is_file():
-        sys.exit("Missing Cyber-Cop_Atlas40_full.zip. Upload the Atlas 40 ZIP to the repository root.")
+        sys.exit("Missing Cyber-Cop_Atlas41_full.zip. Upload the Atlas 41 ZIP to the repository root.")
 
     with zipfile.ZipFile(ARCHIVE) as z:
         names = {i.filename for i in z.infolist() if not i.is_dir()}
@@ -48,8 +48,8 @@ def build() -> None:
     ru = DEST / "Cyber-Cop_Atlas.html"
     en = DEST / "Cyber-Cop_Atlas_en.html"
     for html_path, old, new in (
-        (ru, "<title>Cyber-Cop — атлас 16 уровней</title>", "<title>Cyber-Cop Atlas 40 — 32 карты: Original + Mission Disk</title>"),
-        (en, "<title>Cyber-Cop — 16-floor atlas</title>", "<title>Cyber-Cop Atlas 40 — 32 maps: Original + Mission Disk</title>"),
+        (ru, "<title>Cyber-Cop — атлас 16 уровней</title>", "<title>Cyber-Cop Atlas 41 — 32 карты: Original + Mission Disk</title>"),
+        (en, "<title>Cyber-Cop — 16-floor atlas</title>", "<title>Cyber-Cop Atlas 41 — 32 maps: Original + Mission Disk</title>"),
     ):
         contents = html_path.read_text(encoding="utf-8")
         if "data:image/png;base64," not in contents or "Cyber-Cop_Atlas" not in contents:
@@ -62,7 +62,7 @@ def build() -> None:
     downloads.mkdir()
     shutil.copy2(ARCHIVE, downloads / ARCHIVE.name)
     digest = hashlib.sha256(ARCHIVE.read_bytes()).hexdigest()
-    print(f"PASS: {len(names)} Atlas 40 files, index, RU/EN viewers, downloadable original ZIP")
+    print(f"PASS: {len(names)} Atlas 41 files, index, RU/EN viewers, downloadable original ZIP")
     print(f"Atlas ZIP SHA-256: {digest}")
     print(f"GitHub Pages staging directory: {DEST}")
 
